@@ -2,6 +2,12 @@ from pandas import DataFrame
 from typing import Any
 from importlib import import_module
 
+# TODO: add tests
+# TODO: build as standalone tool and as a package
+# TODO: create documentation: Sphinx
+# TODO: build abstraction for entity relationship checker 
+# TODO: build abstraction for output format
+
 class OOV:
     def __init__(self, 
                 obj: tuple[Any,Any], 
