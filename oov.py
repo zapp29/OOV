@@ -4,7 +4,6 @@ from importlib import import_module
 
 # TODO: add tests
 # TODO: build as standalone tool and as a package
-# TODO: create documentation: Sphinx
 # TODO: build abstraction for entity relationship checker 
 # TODO: build abstraction for output format
 
@@ -15,12 +14,13 @@ class OOV:
     def __init__(self, 
                 obj: tuple[Any,Any], 
                 imp: tuple[bool,bool] = (True,True)
-        ):
+        ) -> None:
         self.obj_1_name: str = obj[0]
         self.obj_2_name: str = obj[1]
         self.parsed_obj_1: dict = {}
         self.parsed_obj_2: dict = {}
-        imp = tuple(imp)
+        imp: tuple = tuple(imp)
+        # TODO: redo this to use zip and lopping for multiple values
         if imp[0]:
             try:
                 self.parsed_obj_1[self.obj_1_name] = import_module(self.obj_1_name)
@@ -42,7 +42,12 @@ class OOV:
             except NameError:
                 print("Name ", self.obj_2_name, "not defined is current scope.")
     
-    def _update_dict(self, d, key1, key2, value):
+    def _update_dict_inplace(self, 
+                    d: dict, 
+                    key1: str, 
+                    key2: str, 
+                    value: int):
+        """private function for storing the results in a self.result dictionary"""
         if key1 in d.keys():
             d[key1][key2] = value
         else:
@@ -52,16 +57,16 @@ class OOV:
     
     def view_issubclass(self):
         """function to generate results"""
-        self.result = {}
-        for elem_obj_1 in dir(self.parsed_obj_1[self.obj_1_name]):
-            p_elem_obj_1 = eval("self.parsed_obj_1[self.obj_1_name]." + elem_obj_1)
+        self.result: dict = {}
+        for elem_obj_1 in dir(self.parsed_obj_1[self.obj_1_name]): 
+            p_elem_obj_1: Any = eval("self.parsed_obj_1[self.obj_1_name]." + elem_obj_1)
             for elem_obj_2 in dir(self.parsed_obj_2[self.obj_2_name]):
-                p_elem_obj_2 = eval("self.parsed_obj_2[self.obj_2_name]." + elem_obj_2)
+                p_elem_obj_2: Any = eval("self.parsed_obj_2[self.obj_2_name]." + elem_obj_2)
                 try:
                     if issubclass(p_elem_obj_1, p_elem_obj_2):
-                        self._update_dict(self.result, elem_obj_1, elem_obj_2, 1)
+                        self._update_dict_inplace(self.result, elem_obj_1, elem_obj_2, 1)
                     else:
-                        self._update_dict(self.result, elem_obj_1, elem_obj_2, 0)
+                        self._update_dict_inplace(self.result, elem_obj_1, elem_obj_2, 0)
                 except TypeError:
                     print("skipping: ", elem_obj_1, elem_obj_2)
         return self.result
