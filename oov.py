@@ -12,35 +12,27 @@ class OOV:
     """
 
     def __init__(self, 
-                obj: tuple[Any,Any], 
-                imp: tuple[bool,bool] = (True,True)
+                obj: list[Any], 
+                imp: list[bool] = (True,True)
         ) -> None:
-        self.obj_1_name: str = obj[0]
-        self.obj_2_name: str = obj[1]
-        self.parsed_obj_1: dict = {}
-        self.parsed_obj_2: dict = {}
-        imp: tuple = tuple(imp)
-        # TODO: redo this to use zip and lopping for multiple values
-        if imp[0]:
-            try:
-                self.parsed_obj_1[self.obj_1_name] = import_module(self.obj_1_name)
-            except ModuleNotFoundError:
-                print("ModuleNotFoundError: ", self.obj_1_name, " not found.")
-        else:
-            try:
-                self.parsed_obj_1[self.obj_1_name] = eval(self.obj_1_name)
-            except NameError:
-                print("Name ", self.obj_1_name, "not defined is current scope.")
-        if imp[1]:
-            try:
-                self.parsed_obj_2[self.obj_2_name] = import_module(self.obj_2_name)
-            except ModuleNotFoundError:
-                print("ModuleNotFoundError: ", self.obj_2_name, " not found.")
-        else:
-            try:
-                self.parsed_obj_2[self.obj_2_name] = eval(self.obj_2_name)
-            except NameError:
-                print("Name ", self.obj_2_name, "not defined is current scope.")
+        self.obj_names:   list[str]  = obj
+        self.parsed_objs: list[dict] = {}
+        
+        if len(obj) != len(imp):
+            # TODO implement proper Exception; how to create exception that will print proper error message
+            raise Exception
+
+        for e_obj,e_imp in list(zip(obj,imp)):
+            if e_imp:
+                try:
+                    self.parsed_objs[e_obj] = import_module(e_obj)
+                except:
+                    print("ModuleNotFoundError: ", e_obj, " not found.")
+            else:
+                try:
+                    self.parsed_objs[e_obj] = eval(e_obj)
+                except NameError:
+                    print("Name ", e_obj, "not defined is current scope.")    
     
     def _update_dict_inplace(self, 
                     d: dict, 
@@ -57,6 +49,7 @@ class OOV:
     
     def view_issubclass(self):
         """function to generate results"""
+        # TODO: redo function to use new model from __init__
         self.result: dict = {}
         for elem_obj_1 in dir(self.parsed_obj_1[self.obj_1_name]): 
             p_elem_obj_1: Any = eval("self.parsed_obj_1[self.obj_1_name]." + elem_obj_1)
@@ -71,6 +64,6 @@ class OOV:
                     print("skipping: ", elem_obj_1, elem_obj_2)
         return self.result
 
-#tmp = OOV(("collections.abc","collections.abc"),(True,True)).view_issubclass()
+tmp = OOV(("collections.abc","collections.abc"),(True,True)).view_issubclass()
 
-#print(DataFrame.from_dict(tmp))
+print(DataFrame.from_dict(tmp))
