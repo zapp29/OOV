@@ -9,6 +9,9 @@ from importlib import import_module
 # TODO: build abstraction for output format
 
 class OOV:
+    """main OOV class for generating object inspection.
+    """
+
     def __init__(self, 
                 obj: tuple[Any,Any], 
                 imp: tuple[bool,bool] = (True,True)
@@ -48,6 +51,7 @@ class OOV:
         return
     
     def view_issubclass(self):
+        """function to generate results"""
         self.result = {}
         for elem_obj_1 in dir(self.parsed_obj_1[self.obj_1_name]):
             p_elem_obj_1 = eval("self.parsed_obj_1[self.obj_1_name]." + elem_obj_1)
@@ -62,6 +66,6 @@ class OOV:
                     print("skipping: ", elem_obj_1, elem_obj_2)
         return self.result
 
-tmp = OOV(("collections.abc","collections.abc"),(True,True)).view_issubclass()
+#tmp = OOV(("collections.abc","collections.abc"),(True,True)).view_issubclass()
 
-print(DataFrame.from_dict(tmp))
+#print(DataFrame.from_dict(tmp))
