@@ -4,7 +4,6 @@ from importlib import import_module
 from types import ModuleType
 from typing import Union
 
-# TODO: add tests
 # TODO: build as standalone tool and as a package
 # TODO: build abstraction for entity relationship checker 
 # TODO: build abstraction for output format
@@ -25,22 +24,32 @@ class OOV:
         if isinstance(obj, str) or isinstance(obj, ModuleType):
             obj = [obj]
         elif not(isinstance(obj, list)):
-            raise TypeError("Parameter should be of type Union[str, ModuleType, list[Union[str, ModuleType]]], not: ", type(obj))
+            raise TypeError(
+                "Parameter should be of type Union[str, ModuleType, list[Union[str, ModuleType]]], not: ",
+                type(obj)
+                )
 
         for e_obj in obj:
             if isinstance(e_obj, str):
                 try:
                     self.parsed_objs[e_obj] = import_module(e_obj)
                 except ModuleNotFoundError:
-                    print("ModuleNotFoundError: ", e_obj, " not found.")
+                    raise ModuleNotFoundError(e_obj, " not found.")
             elif isinstance(e_obj, ModuleType):
                 try:
                     self.parsed_objs[e_obj.__name__] = e_obj
                 except NameError:
-                    print("Name ", e_obj, "not defined is current scope.")
+                    raise NameError(
+                        "Name ",
+                        e_obj,
+                        "not defined is current scope."
+                        )
             else:
-                raise TypeError("Parameter should be of type Union[str, ModuleType, list[Union[str, ModuleType]]], not: ", type(e_obj))
-    
+                raise TypeError(
+                    "Parameter should be of type Union[str, ModuleType, list[Union[str, ModuleType]]], not: ",
+                    type(e_obj)
+                    )
+
     def _update_dict_inplace(
         self,
         d: dict,
@@ -48,16 +57,16 @@ class OOV:
         key2: str,
         value: int
     ):
-        """private function for storing the results in a self.result dictionary"""
+        """Store the results in a dictionary."""
         if key1 in d.keys():
             d[key1][key2] = value
         else:
             d[key1] = {}
             d[key1][key2] = value
         return
-    
+
     def view_issubclass(self):
-        """function to generate results"""
+        """Generate results."""
         self.result: dict = {}
         job_list: list = []
         for i, e in enumerate(list(self.parsed_objs)):
@@ -85,5 +94,6 @@ class OOV:
                                 self.result, elem_obj_1, elem_obj_2, 0
                                 )
                     except TypeError:
-                        print("skipping: ", elem_obj_1, elem_obj_2)
+                        # print("skipping: ", elem_obj_1, elem_obj_2)
+                        pass
         return self.result
