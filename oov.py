@@ -1,6 +1,8 @@
 from pandas import DataFrame
 from typing import Any
 from importlib import import_module
+from types import ModuleType
+from typing import Union
 
 # TODO: add tests
 # TODO: build as standalone tool and as a package
@@ -16,45 +18,36 @@ class OOV:
     In the future the amount of objects will no be limited.
     """
 
-
-    def __init__(self, 
-                obj: list[Any], 
-                imp: list[bool]
-        ) -> None:
+    def __init__(self, obj: Union[str, ModuleType, list[Union[str, ModuleType]]]) -> None:
         # TODO: implement "noself: tuple[bool]" parameter to exlude matching objects within the same library
-        self.obj_names:   list[str]  = obj
         self.parsed_objs: list[dict] = {}
 
-        if isinstance(obj, str):
+        if isinstance(obj, str) or isinstance(obj, ModuleType):
             obj = [obj]
+        elif not(isinstance(obj, list)):
+            raise TypeError("Parameter should be of type Union[str, ModuleType, list[Union[str, ModuleType]]], not: ", type(obj))
 
-        if isinstance(imp, bool):
-            imp = len(obj)*[imp]
-        if isinstance(imp, list):
-            if len(imp)==1:
-                imp = len(obj)*imp
-
-        if len(obj) != len(imp):
-            # TODO implement proper Exception; how to create exception that will print proper error message
-            raise Exception
-
-        for e_obj, e_imp in list(zip(obj, imp)):
-            if e_imp:
+        for e_obj in obj:
+            if isinstance(e_obj, str):
                 try:
                     self.parsed_objs[e_obj] = import_module(e_obj)
-                except:
+                except ModuleNotFoundError:
                     print("ModuleNotFoundError: ", e_obj, " not found.")
-            else:
+            elif isinstance(e_obj, ModuleType):
                 try:
-                    self.parsed_objs[e_obj] = eval(e_obj)
+                    self.parsed_objs[e_obj.__name__] = e_obj
                 except NameError:
-                    print("Name ", e_obj, "not defined is current scope.")    
+                    print("Name ", e_obj, "not defined is current scope.")
+            else:
+                raise TypeError("Parameter should be of type Union[str, ModuleType, list[Union[str, ModuleType]]], not: ", type(e_obj))
     
-    def _update_dict_inplace(self, 
-                    d: dict, 
-                    key1: str, 
-                    key2: str, 
-                    value: int):
+    def _update_dict_inplace(
+        self,
+        d: dict,
+        key1: str,
+        key2: str,
+        value: int
+    ):
         """private function for storing the results in a self.result dictionary"""
         if key1 in d.keys():
             d[key1][key2] = value
@@ -74,19 +67,23 @@ class OOV:
             parsed_obj_1, parsed_obj_2 = job
             for elem_obj_1 in dir(self.parsed_objs[parsed_obj_1]):
                 p_elem_obj_1: Any
-                p_elem_obj_1 = eval("self.parsed_objs[parsed_obj_1]." + elem_obj_1)
+                p_elem_obj_1 = eval(
+                    "self.parsed_objs[parsed_obj_1]." + elem_obj_1
+                    )
                 for elem_obj_2 in dir(self.parsed_objs[parsed_obj_2]):
                     p_elem_obj_2: Any
-                    p_elem_obj_2 = eval("self.parsed_objs[parsed_obj_2]." + elem_obj_2)
+                    p_elem_obj_2 = eval(
+                        "self.parsed_objs[parsed_obj_2]." + elem_obj_2
+                        )
                     try:
                         if issubclass(p_elem_obj_1, p_elem_obj_2):
-                            self._update_dict_inplace(self.result, elem_obj_1, elem_obj_2, 1)
+                            self._update_dict_inplace(
+                                self.result, elem_obj_1, elem_obj_2, 1
+                                )
                         else:
-                            self._update_dict_inplace(self.result, elem_obj_1, elem_obj_2, 0)
+                            self._update_dict_inplace(
+                                self.result, elem_obj_1, elem_obj_2, 0
+                                )
                     except TypeError:
                         print("skipping: ", elem_obj_1, elem_obj_2)
         return self.result
-
-tmp = OOV("collections.abc", True).view_issubclass()
-
-print(DataFrame.from_dict(tmp))
