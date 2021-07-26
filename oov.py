@@ -1,7 +1,7 @@
 from typing import Any
 from importlib import import_module
 from types import ModuleType
-from typing import Union
+from typing import Union, List
 
 # GH Actions
 # nox
@@ -18,15 +18,15 @@ class OOV:
     In the future the amount of objects will no be limited.
     """
 
-    def __init__(self, obj: Union[str, ModuleType, list[Union[str, ModuleType]]]) -> None:
+    def __init__(self, obj: Union[str, ModuleType, List[Union[str, ModuleType]]]) -> None:
         # TODO: implement "noself: tuple[bool]" parameter to exlude matching objects within the same library
-        self.parsed_objs: list[dict] = {}
+        self.parsed_objs: List[dict] = {}
 
         if isinstance(obj, str) or isinstance(obj, ModuleType):
             obj = [obj]
         elif not(isinstance(obj, list)):
             raise TypeError(
-                "Parameter should be of type Union[str, ModuleType, list[Union[str, ModuleType]]], not: ",
+                "Parameter should be of type Union[str, ModuleType, List[Union[str, ModuleType]]], not: ",
                 type(obj)
                 )
 
@@ -47,7 +47,7 @@ class OOV:
                         )
             else:
                 raise TypeError(
-                    "Parameter should be of type Union[str, ModuleType, list[Union[str, ModuleType]]], not: ",
+                    "Parameter should be of type Union[str, ModuleType, List[Union[str, ModuleType]]], not: ",
                     type(e_obj)
                     )
 
