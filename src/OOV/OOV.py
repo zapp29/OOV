@@ -1,3 +1,4 @@
+"""OOV,py defines OOV object."""
 from importlib import import_module
 from types import ModuleType
 from typing import Any
@@ -14,23 +15,41 @@ from typing import Union
 
 class OOV:
     """main OOV class for generating object inspection.
+
     Currently the class only serves 1-2 objects.
-    If there is one object, or the same object twice, given only self-cross-check will be performed.
-    If there are two different objects given, the class will check both with them selves, and one again another.
+
+    If there is one object, or the same object twice,
+    given only self-cross-check will be performed.
+
+    If there are two different objects given,
+    the class will check both with them selves, and one again another.
+
     In the future the amount of objects will no be limited.
     """
 
     def __init__(
         self, obj: Union[str, ModuleType, List[Union[str, ModuleType]]]
     ) -> None:
-        # TODO: implement "noself: tuple[bool]" parameter to exlude matching objects within the same library
+        """Initialize internal objects.
+
+        Args:
+            obj: blabla
+
+        Raises:
+            ModuleNotFoundError: blabla
+            NameError: blabla
+            TypeError: blabla
+        """
+        # TODO: implement "noself: tuple[bool]"
+        # parameter to exlude matching objects within the same library
         self.parsed_objs: Dict[str, ModuleType] = {}
 
         if isinstance(obj, str) or isinstance(obj, ModuleType):
             obj = [obj]
         elif not (isinstance(obj, list)):
             raise TypeError(
-                "Parameter should be of type Union[str, ModuleType, List[Union[str, ModuleType]]], not: ",
+                "Parameter should be of type "
+                "Union[str, ModuleType, List[Union[str, ModuleType]]], not: ",
                 type(obj),
             )
 
@@ -47,7 +66,8 @@ class OOV:
                     raise NameError("Name ", e_obj, "not defined is current scope.")
             else:
                 raise TypeError(
-                    "Parameter should be of type Union[str, ModuleType, List[Union[str, ModuleType]]], not: ",
+                    "Parameter should be of type "
+                    "Union[str, ModuleType, List[Union[str, ModuleType]]], not: ",
                     type(e_obj),
                 )
 

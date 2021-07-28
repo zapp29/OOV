@@ -1,3 +1,4 @@
+"""pytest module testing OOV.py implementation."""
 from types import ModuleType
 
 import pytest
@@ -139,12 +140,14 @@ class TestCreateObject:
         """
 
         def test_wrong_type(self):
+            """Checks if the objects behaviour when wrong type is passed."""
             with pytest.raises(TypeError):
                 OOV([12])
             with pytest.raises(TypeError):
                 OOV(True)
 
         def test_inexisting_package_as_string(self):
+            """Checks if the objects behaviour when inexisting package is passed."""
             with pytest.raises(ModuleNotFoundError):
                 OOV("pythonsucks")
 
@@ -153,6 +156,7 @@ class TestUpdateDictInplace:
     """Test _update_dict_inplace method."""
 
     def test__update_dict_inplace(self):
+        """Checks _update_dict dictionary manipulation function."""
         d = {}
         obj = OOV("collections.abc")
         obj._update_dict_inplace(d, "k1", "k2", 123)
@@ -169,6 +173,7 @@ class TestViewIssubclass:
     """Test view_issubclass method."""
 
     def test_view_issubclass(self):
+        """Checks if view_issubclass methods returns proper values."""
         import tests.input.dummy_module as dummy_module
 
         obj = OOV(dummy_module)
