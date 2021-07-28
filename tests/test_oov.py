@@ -16,16 +16,19 @@ class TestCreateObject:
         """
 
         def test_object_length(self):
+            """Checks if object len() is as desired."""
             result_1 = len(OOV(["collections.abc", "typing"]).parsed_objs)
             assert result_1 == 2
 
         def test_object_keys(self):
+            """Checks if object has proper keys."""
             result_1 = list(OOV(["collections.abc", "typing"]).parsed_objs)[0]
             result_2 = list(OOV(["collections.abc", "typing"]).parsed_objs)[1]
             assert result_2 == "typing"
             assert result_1 == "collections.abc"
 
         def test_object_value_types(self):
+            """Checks if object values are of proper type."""
             result_1 = OOV(["collections.abc", "typing"]).parsed_objs["collections.abc"]
             result_2 = OOV(["collections.abc", "typing"]).parsed_objs["typing"]
             assert isinstance(result_1, ModuleType)
@@ -40,14 +43,17 @@ class TestCreateObject:
         """
 
         def test_object_length(self):
+            """Checks if object len() is as desired."""
             result_1 = len(OOV("collections.abc").parsed_objs)
             assert result_1 == 1
 
         def test_object_keys(self):
+            """Checks if object has proper keys."""
             result_2 = list(OOV("collections.abc").parsed_objs)[0]
             assert result_2 == "collections.abc"
 
         def test_object_value_types(self):
+            """Checks if object values are of proper type."""
             result_3 = OOV("collections.abc").parsed_objs["collections.abc"]
             assert isinstance(result_3, ModuleType)
 
@@ -60,6 +66,7 @@ class TestCreateObject:
         """
 
         def test_object_length(self):
+            """Checks if object len() is as desired."""
             import collections.abc
             import typing
 
@@ -67,6 +74,7 @@ class TestCreateObject:
             assert result_1 == 2
 
         def test_object_keys(self):
+            """Checks if object has proper keys."""
             import collections.abc
             import typing
 
@@ -76,6 +84,7 @@ class TestCreateObject:
             assert result_1 == "collections.abc"
 
         def test_object_value_types(self):
+            """Checks if object values are of proper type."""
             import collections.abc
             import typing
 
@@ -95,6 +104,7 @@ class TestCreateObject:
         """
 
         def test_object_length(self):
+            """Checks if object len() is as desired."""
             import collections.abc
 
             result_1 = len(OOV([collections.abc]).parsed_objs)
@@ -103,6 +113,7 @@ class TestCreateObject:
             assert result_2 == 1
 
         def test_object_keys(self):
+            """Checks if object has proper keys."""
             import collections.abc
 
             result_1 = list(OOV([collections.abc]).parsed_objs)[0]
@@ -111,6 +122,7 @@ class TestCreateObject:
             assert result_2 == "collections.abc"
 
         def test_object_value_types(self):
+            """Checks if object values are of proper type."""
             import collections.abc
 
             result_1 = OOV([collections.abc]).parsed_objs["collections.abc"]
