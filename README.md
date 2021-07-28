@@ -1,2 +1,0 @@
-# OOV
-ObjectOrientedVoyeur
