@@ -1,7 +1,9 @@
-from typing import Any
 from importlib import import_module
 from types import ModuleType
-from typing import Union, List, Dict
+from typing import Any
+from typing import Dict
+from typing import List
+from typing import Union
 
 # nox
 # TODO: build as standalone tool and as a package
