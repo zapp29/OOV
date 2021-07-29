@@ -1,5 +1,6 @@
 """pytest module testing OOV.py implementation."""
 from types import ModuleType
+from typing import Dict
 
 import pytest
 from src.OOV.OOV import OOV as OOV
@@ -16,19 +17,19 @@ class TestCreateObject:
         - imp: True
         """
 
-        def test_object_length(self):
+        def test_object_length(self) -> None:
             """Checks if object len() is as desired."""
             result_1 = len(OOV(["collections.abc", "typing"]).parsed_objs)
             assert result_1 == 2
 
-        def test_object_keys(self):
+        def test_object_keys(self) -> None:
             """Checks if object has proper keys."""
             result_1 = list(OOV(["collections.abc", "typing"]).parsed_objs)[0]
             result_2 = list(OOV(["collections.abc", "typing"]).parsed_objs)[1]
             assert result_2 == "typing"
             assert result_1 == "collections.abc"
 
-        def test_object_value_types(self):
+        def test_object_value_types(self) -> None:
             """Checks if object values are of proper type."""
             result_1 = OOV(["collections.abc", "typing"]).parsed_objs["collections.abc"]
             result_2 = OOV(["collections.abc", "typing"]).parsed_objs["typing"]
@@ -43,17 +44,17 @@ class TestCreateObject:
         - imp: True
         """
 
-        def test_object_length(self):
+        def test_object_length(self) -> None:
             """Checks if object len() is as desired."""
             result_1 = len(OOV("collections.abc").parsed_objs)
             assert result_1 == 1
 
-        def test_object_keys(self):
+        def test_object_keys(self) -> None:
             """Checks if object has proper keys."""
             result_2 = list(OOV("collections.abc").parsed_objs)[0]
             assert result_2 == "collections.abc"
 
-        def test_object_value_types(self):
+        def test_object_value_types(self) -> None:
             """Checks if object values are of proper type."""
             result_3 = OOV("collections.abc").parsed_objs["collections.abc"]
             assert isinstance(result_3, ModuleType)
@@ -66,7 +67,7 @@ class TestCreateObject:
         - imp: False
         """
 
-        def test_object_length(self):
+        def test_object_length(self) -> None:
             """Checks if object len() is as desired."""
             import collections.abc
             import typing
@@ -74,7 +75,7 @@ class TestCreateObject:
             result_1 = len(OOV([collections.abc, typing]).parsed_objs)
             assert result_1 == 2
 
-        def test_object_keys(self):
+        def test_object_keys(self) -> None:
             """Checks if object has proper keys."""
             import collections.abc
             import typing
@@ -84,7 +85,7 @@ class TestCreateObject:
             assert result_2 == "typing"
             assert result_1 == "collections.abc"
 
-        def test_object_value_types(self):
+        def test_object_value_types(self) -> None:
             """Checks if object values are of proper type."""
             import collections.abc
             import typing
@@ -104,7 +105,7 @@ class TestCreateObject:
         - imp: False
         """
 
-        def test_object_length(self):
+        def test_object_length(self) -> None:
             """Checks if object len() is as desired."""
             import collections.abc
 
@@ -113,7 +114,7 @@ class TestCreateObject:
             assert result_1 == 1
             assert result_2 == 1
 
-        def test_object_keys(self):
+        def test_object_keys(self) -> None:
             """Checks if object has proper keys."""
             import collections.abc
 
@@ -122,7 +123,7 @@ class TestCreateObject:
             assert result_1 == "collections.abc"
             assert result_2 == "collections.abc"
 
-        def test_object_value_types(self):
+        def test_object_value_types(self) -> None:
             """Checks if object values are of proper type."""
             import collections.abc
 
@@ -139,14 +140,14 @@ class TestCreateObject:
         - inexisting module as string
         """
 
-        def test_wrong_type(self):
+        def test_wrong_type(self) -> None:
             """Checks if the objects behaviour when wrong type is passed."""
             with pytest.raises(TypeError):
-                OOV([12])
+                OOV([12])  # type: ignore
             with pytest.raises(TypeError):
-                OOV(True)
+                OOV(True)  # type: ignore
 
-        def test_inexisting_package_as_string(self):
+        def test_inexisting_package_as_string(self) -> None:
             """Checks if the objects behaviour when inexisting package is passed."""
             with pytest.raises(ModuleNotFoundError):
                 OOV("pythonsucks")
@@ -155,9 +156,9 @@ class TestCreateObject:
 class TestUpdateDictInplace:
     """Test _update_dict_inplace method."""
 
-    def test__update_dict_inplace(self):
+    def test__update_dict_inplace(self) -> None:
         """Checks _update_dict dictionary manipulation function."""
-        d = {}
+        d: Dict[str, Dict[str, int]] = {}
         obj = OOV("collections.abc")
         obj._update_dict_inplace(d, "k1", "k2", 123)
         assert d["k1"]["k2"] == 123
@@ -172,9 +173,9 @@ class TestUpdateDictInplace:
 class TestViewIssubclass:
     """Test view_issubclass method."""
 
-    def test_view_issubclass(self):
+    def test_view_issubclass(self) -> None:
         """Checks if view_issubclass methods returns proper values."""
-        import tests.input.dummy_module as dummy_module
+        import tests.input.dummy_module as dummy_module  # type: ignore
 
         obj = OOV(dummy_module)
         result = obj.view_issubclass()

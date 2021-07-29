@@ -4,6 +4,7 @@ from types import ModuleType
 from typing import Any
 from typing import Dict
 from typing import List
+from typing import Tuple
 from typing import Union
 
 # nox
@@ -68,7 +69,9 @@ class OOV:
                     type(e_obj),
                 )
 
-    def _update_dict_inplace(self, d: dict, key1: str, key2: str, value: int):
+    def _update_dict_inplace(
+        self, d: Dict[str, Dict[str, Any]], key1: str, key2: str, value: int
+    ) -> None:
         """Store the results in a dictionary."""
         if key1 in d.keys():
             d[key1][key2] = value
@@ -77,10 +80,12 @@ class OOV:
             d[key1][key2] = value
         return
 
-    def view_issubclass(self):
+    def view_issubclass(self) -> Dict[str, Dict[str, int]]:
         """Generate results."""
-        self.result: dict = {}
-        job_list: list = []
+        self.result: Dict[str, Dict[str, int]] = {}
+        job_list: List[Tuple[str, str]] = []
+        parsed_obj_1: str
+        parsed_obj_2: str
         for i, e in enumerate(list(self.parsed_objs)):
             for w in list(self.parsed_objs)[i:]:
                 job_list.append((e, w))

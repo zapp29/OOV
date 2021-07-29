@@ -6,8 +6,8 @@ Reference
     :backlinks: none
 
 
-OOV.__main__
+OOV
 ------------
 
-.. automodule:: OOV.__main__
+.. automodule:: src.OOV
    :members:
