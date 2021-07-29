@@ -44,6 +44,9 @@ jobs:
           pip install --constraint=.github/workflows/constraints.txt pip
           pip --version
 
+      - name: setup-conda
+        uses: s-weigand/setup-conda@v1.0.7
+
       - name: Install Poetry
         run: |
           pip install --constraint=.github/workflows/constraints.txt poetry
