@@ -37,7 +37,6 @@ class OOV:
 
         Raises:
             ModuleNotFoundError: blabla
-            NameError: blabla
             TypeError: blabla
         """
         # TODO: implement "noself: tuple[bool]"
@@ -60,10 +59,8 @@ class OOV:
                 except ModuleNotFoundError:
                     raise ModuleNotFoundError(e_obj, " not found.")
             elif isinstance(e_obj, ModuleType):
-                try:
-                    self.parsed_objs[e_obj.__name__] = e_obj
-                except NameError:
-                    raise NameError("Name ", e_obj, "not defined is current scope.")
+                self.parsed_objs[e_obj.__name__] = e_obj
+
             else:
                 raise TypeError(
                     "Parameter should be of type "
