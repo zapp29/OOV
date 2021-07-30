@@ -3,7 +3,11 @@ from types import ModuleType
 from typing import Dict
 
 import pytest
+<<<<<<< HEAD
 from src.OOV.OOV import OOV as OOV  # type: ignore
+=======
+from src.OOV.OOV import OOV as OOV # type: ignore
+>>>>>>> b8f47b6905bbc15673b99930fcd05a78c2c555a3
 
 
 class TestCreateObject:
