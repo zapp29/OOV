@@ -3,7 +3,7 @@ from types import ModuleType
 from typing import Dict
 
 import pytest
-from src.OOV.OOV import OOV as OOV
+from src.OOV.OOV import OOV as OOV  # type: ignore
 
 
 class TestCreateObject:
@@ -143,9 +143,9 @@ class TestCreateObject:
         def test_wrong_type(self) -> None:
             """Checks if the objects behaviour when wrong type is passed."""
             with pytest.raises(TypeError):
-                OOV([12])  # type: ignore
+                OOV([12])
             with pytest.raises(TypeError):
-                OOV(True)  # type: ignore
+                OOV(True)
 
         def test_inexisting_package_as_string(self) -> None:
             """Checks if the objects behaviour when inexisting package is passed."""
