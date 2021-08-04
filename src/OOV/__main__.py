@@ -5,7 +5,7 @@ import click
 @click.command()
 @click.argument("module", nargs=-1)
 def main(module):
-    click.echo(f"Hello {module}!")
+    click.echo(f"Hallo {module}!")
 
 
 if __name__ == "__main__":
