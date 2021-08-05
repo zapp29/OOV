@@ -3,8 +3,9 @@ import click
 
 
 @click.command()
-@click.argument("module", nargs=-1)
-def main(module):
+@click.argument(param_decls="module", nargs=-1)  # type: ignore
+def main(module: str) -> None:
+    """Main function."""
     click.echo(f"Hallo {module}!")
 
 

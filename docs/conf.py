@@ -2,7 +2,7 @@
 from datetime import datetime
 
 
-project = "src/OOV"
+project = "oov"
 author = "zapp29"
 copyright = f"{datetime.now().year}, {author}"
 extensions = [

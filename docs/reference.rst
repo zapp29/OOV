@@ -9,5 +9,5 @@ Reference
 OOV
 ------------
 
-.. automodule:: src.OOV
+.. automodule:: oov
    :members:
