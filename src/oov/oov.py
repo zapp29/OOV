@@ -7,10 +7,9 @@ from typing import List
 from typing import Tuple
 from typing import Union
 
-# nox
-# TODO: build as standalone tool and as a package
 # TODO: build abstraction for entity relationship checker
 # TODO: build abstraction for output format
+# TODO: phase 1: build a nicer presentation ; phase 2: build abstraction for presentation format
 # TODO: add documentation
 
 
@@ -110,3 +109,7 @@ class OOV:
                         # print("skipping: ", elem_obj_1, elem_obj_2)
                         pass
         return self.result
+
+
+if __name__ == "__main__":
+    pass
