@@ -23,6 +23,7 @@ Changelog = "https://github.com/zapp29/OOV/releases"
 
 [tool.poetry.dependencies]
 python = "^3.6.1"
+click = "^8.0.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.4"
@@ -45,6 +46,9 @@ reorder-python-imports = "^2.6.0"
 pre-commit-hooks = "^4.0.1"
 sphinx-rtd-theme = "^0.5.2"
 Pygments = "^2.9.0"
+
+[tool.poetry.scripts]
+oov = 'oov.__main__:console_entry'
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]
