@@ -5,6 +5,7 @@ from typing import List
 
 import click
 
+from oov.draw_table import draw_table
 from oov.oov import OOV
 
 
@@ -14,7 +15,7 @@ def main(modules: List[str]):
     """Main function."""
     modules = list(modules)
     results = OOV(modules).view_issubclass()
-    print(results)
+    draw_table(results)
 
 
 def console_entry() -> None:
