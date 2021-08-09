@@ -1,6 +1,5 @@
 repos:
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.0.1
+  - repo: local
     hooks:
       - id: trailing-whitespace
         name: Trim Trailing Whitespace
@@ -28,8 +27,7 @@ repos:
         entry: check-toml
         language: system
         types: [toml]
-  - repo: https://github.com/asottile/reorder_python_imports
-    rev: v2.6.0
+  - repo: local
     hooks:
       - id: reorder-python-imports
         name: Reorder python imports
@@ -37,8 +35,7 @@ repos:
         language: system
         types: [python]
         args: [--application-directories=src]
-  - repo: https://github.com/PyCQA/flake8
-    rev: 3.9.2
+  - repo: local
     hooks:
       - id: flake8
         name: flake8
@@ -46,12 +43,12 @@ repos:
         language: system
         types: [python]
         require_serial: true
-  - repo: https://github.com/ambv/black
-    rev: 21.7b0
+  - repo: local
     hooks:
       - id: black
         name: black
         entry: black
+        language: system
         types: [python]
         require_serial: true
   - repo: https://github.com/pre-commit/mirrors-prettier
