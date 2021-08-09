@@ -1,13 +1,35 @@
 """Command-line interface."""
+import os
+import sys
+from typing import List
+
 import click
+
+from oov.oov import OOV
 
 
 @click.command()
-@click.argument(param_decls="module", nargs=-1)  # type: ignore
-def main(module: str) -> None:
+@click.argument("modules", nargs=-1)  # type: ignore
+def main(modules: List[str]):
     """Main function."""
-    click.echo(f"Hallo {module}!")
+    modules = list(modules)
+    results = OOV(modules).view_issubclass()
+    print(results)
+
+
+def console_entry() -> None:
+    """Console entry."""
+    try:
+        main()
+        sys.stdout.flush()
+        sys.stderr.flush()
+    except BrokenPipeError:
+        # Python flushes standard streams on exit; redirect remaining output
+        # to devnull to avoid another BrokenPipeError at shutdown
+        devnull = os.open(os.devnull, os.O_WRONLY)
+        os.dup2(devnull, sys.stdout.fileno())
+        sys.exit(2)
 
 
 if __name__ == "__main__":
-    main()  # pragma: no cover
+    console_entry()
