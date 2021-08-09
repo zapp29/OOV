@@ -3,7 +3,10 @@ from types import ModuleType
 from typing import Dict
 
 import pytest
-from oov.OOV import OOV
+
+from oov.oov import OOV
+
+# TODO: test that OOV can be used with: "import oov"
 
 
 class TestCreateObject:
