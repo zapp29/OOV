@@ -1,4 +1,4 @@
-"""pytest module testing OOV.py implementation."""
+"""Pytest module testing OOV.py implementation."""
 from types import ModuleType
 from typing import Dict
 
@@ -7,6 +7,7 @@ import pytest
 from oov.oov import OOV
 
 # TODO: test that OOV can be used with: "import oov"
+# TODO: test on all multiple builtin modules if the program doesn't fail
 
 
 class TestCreateObject:

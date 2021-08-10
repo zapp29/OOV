@@ -1,4 +1,4 @@
-"""OOV,py defines OOV object."""
+"""Define main OOV class."""
 from importlib import import_module
 from types import ModuleType
 from typing import Any
@@ -9,12 +9,13 @@ from typing import Union
 
 # TODO: build abstraction for entity relationship checker
 # TODO: build abstraction for output format
-# TODO: phase 1: build a nicer presentation ; phase 2: build abstraction for presentation format
+# TODO: build abstraction for presentation format
 # TODO: add documentation
+# TODO: work with packages that are not installed
 
 
 class OOV:
-    """main OOV class for generating object inspection.
+    """Main OOV class for generating object inspection.
 
     Currently the class only serves 1-2 objects.
 
@@ -24,7 +25,7 @@ class OOV:
     If there are two different objects given,
     the class will check both with them selves, and one again another.
 
-    In the future the amount of objects will no be limited.
+    In the future the amount of objects will not be limited.
     """
 
     def __init__(
