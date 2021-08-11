@@ -16,11 +16,11 @@ def runner() -> CliRunner:
 
 def test_main(runner: CliRunner) -> None:
     """It exits with a status code of zero."""
-    result = runner.invoke(main, "pandas")
+    result = runner.invoke(main, "dis")
     assert result.exit_code == 0
 
 
 def test_console_entry(runner: CliRunner):
     """It exits with a status code of zero."""
-    result = runner.invoke(main)
+    result = runner.invoke(main, "types")
     assert result.exit_code == 0
