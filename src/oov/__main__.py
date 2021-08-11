@@ -18,7 +18,7 @@ def main(modules: List[str]):
     build_table(results)
 
 
-def console_entry() -> None:
+def console_entry() -> None:  # pragma: nocover
     """Console entry."""
     try:
         main()
@@ -33,4 +33,4 @@ def console_entry() -> None:
 
 
 if __name__ == "__main__":
-    console_entry()
+    console_entry()  # pragma: nocover
