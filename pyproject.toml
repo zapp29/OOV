@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "OOV"
-version = "0.0.1"
+version = "0.1.0"
 description = "OOV"
 authors = ["zapp29 <piotr.t.tchir@gmail.com>"]
 license = "MIT"
