@@ -4,7 +4,7 @@ from itertools import islice
 from typing import Dict
 
 
-def terminal_line_lenght() -> int:
+def terminal_line_lenght() -> int:  # pragma: nocover
     """Checks what is current users terminal size."""
     tput = subprocess.Popen(["tput", "cols"], stdout=subprocess.PIPE)
     return int(tput.communicate()[0].strip())
@@ -17,8 +17,7 @@ def build_table(raw_table: Dict[str, Dict[str, int]]) -> None:
     """
     lens = {e: len(e) for e in raw_table}
     max_col_size = max([len(e) for e in raw_table])
-    # FIX: enable automatic termin size recognition
-    max_line_length = 100  # terminal_line_lenght() - max_col_size
+    max_line_length = int(0.9 * (terminal_line_lenght() - max_col_size))
 
     joined_header_row = ""
     joined_header_row_dry_run = ""
@@ -59,11 +58,12 @@ def draw_table_chunk(raw_table: Dict[str, Dict[str, int]], lens, max_col_size) -
         print(text, end=" ")
         for col in cols:
             l_col = len(col)
-            text = (
-                str(raw_table[col][row])
-                .rjust(lens[col] - int(l_col / 2))
-                .ljust(l_col + 2)
-            )
+
+            try:
+                cell = raw_table[col][row]
+            except KeyError:
+                cell = "N/A"
+            text = str(cell).rjust(lens[col] - int(l_col / 2)).ljust(l_col + 2)
             text = text.replace("0", " ")
             text = text.replace("1", "Y")
             print(text, end=" ")
