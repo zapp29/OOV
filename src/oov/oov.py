@@ -83,6 +83,8 @@ class OOV:
     def view_issubclass(self) -> Dict[str, Dict[str, int]]:
         """Generate results."""
         self.result: Dict[str, Dict[str, int]] = {}
+        self.result_alias: Dict[int, str] = {}
+        self.result_index: Dict[int, str] = {}
         job_list: List[Tuple[str, str]] = []
         parsed_obj_1: str
         parsed_obj_2: str
@@ -106,11 +108,9 @@ class OOV:
                             self._update_dict_inplace(
                                 self.result, elem_obj_1, elem_obj_2, 0
                             )
+                    # TODO: create index of error messages to be displayed under the table
                     except TypeError:
-                        # print("skipping: ", elem_obj_1, elem_obj_2)
+                        pass
+                    except AttributeError:
                         pass
         return self.result
-
-
-if __name__ == "__main__":
-    pass
