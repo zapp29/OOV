@@ -14,6 +14,35 @@ from typing import Union
 # TODO: work with packages that are not installed
 
 
+class Observation:
+    """Pass."""
+
+    def __init__(self, data, metadata) -> None:
+        """Initialize internal objects.
+
+        Args:
+            data: blabla
+            metadata: blabla
+        """
+        self._data = data
+        self._metadata = metadata
+
+    def get_data(self):
+        """Pass."""
+        return self._data
+
+    def get_metadata(self, format=dict):
+        """Pass."""
+        if format == dict:
+            return self._metadata
+        if format == list:
+            result = []
+            for key1 in self._metadata.keys():
+                for key2 in self._metadata[key1]:
+                    result.append([self._metadata[key1][key2], key1, key2])
+            return result
+
+
 class OOV:
     """Main OOV class for generating object inspection.
 
@@ -29,7 +58,10 @@ class OOV:
     """
 
     def __init__(
-        self, obj: Union[str, ModuleType, List[Union[str, ModuleType]]]
+        self,
+        obj: Union[
+            str, ModuleType, List[str], List[ModuleType], List[Union[str, ModuleType]]
+        ],
     ) -> None:
         """Initialize internal objects.
 
@@ -43,6 +75,7 @@ class OOV:
         # TODO: implement "noself: tuple[bool]"
         # parameter to exlude matching objects within the same library
         self.parsed_objs: Dict[str, ModuleType] = {}
+        self._counter: int = 1
 
         if isinstance(obj, str) or isinstance(obj, ModuleType):
             obj = [obj]
@@ -80,11 +113,38 @@ class OOV:
             d[key1][key2] = value
         return
 
-    def view_issubclass(self) -> Dict[str, Dict[str, int]]:
+    def _update_enumerated_dict(
+        self, d: Dict[str, Dict[str, int]], key1: str, key2: str
+    ) -> None:
+        """Store the results in a dictionary.
+
+        if d[key1][key2] exists:
+            do nothing
+        if d[key1][key2] doesn't exits:
+            d[key1][key2] = counter
+
+        Use case: create index of error messages
+        key1: error type
+        key2: error message
+        val: error index number
+        """
+        if key1 in d.keys():
+            if key2 in d[key1].keys():
+                return
+            else:
+                d[key1][key2] = self._counter
+                self._counter += 1
+        else:
+            d[key1] = {}
+            d[key1][key2] = self._counter
+            self._counter += 1
+        return
+
+    def view_issubclass(self) -> Observation:
         """Generate results."""
         self.result: Dict[str, Dict[str, int]] = {}
         self.result_alias: Dict[int, str] = {}
-        self.result_index: Dict[int, str] = {}
+        self.result_index: Dict[str, Dict[str, int]] = {}
         job_list: List[Tuple[str, str]] = []
         parsed_obj_1: str
         parsed_obj_2: str
@@ -108,9 +168,20 @@ class OOV:
                             self._update_dict_inplace(
                                 self.result, elem_obj_1, elem_obj_2, 0
                             )
+                    # TODO: make a commit
                     # TODO: create index of error messages to be displayed under the table
-                    except TypeError:
-                        pass
-                    except AttributeError:
-                        pass
-        return self.result
+                    # TODO: enable split table by job:
+                    # "oov typing dis" should enable displaying 3 distinct tables.
+                    # optionally can be chosen split or not split but with namespaces
+                    except Exception as err:
+                        self._update_enumerated_dict(
+                            self.result_index, err.__class__.__name__, str(err)
+                        )
+                        self._update_dict_inplace(
+                            self.result,
+                            elem_obj_1,
+                            elem_obj_2,
+                            self.result_index[err.__class__.__name__][str(err)],
+                        )
+
+        return Observation(self.result, self.result_index)
