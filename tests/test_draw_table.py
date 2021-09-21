@@ -1,6 +1,6 @@
 """Pytest module testing draw_table.py implementation."""
-from src.oov.draw_table import build_table
-from src.oov.oov import OOV
+from oov.draw_table import build_table
+from oov.oov import OOV
 
 
 def test_draw_table(capsys):
