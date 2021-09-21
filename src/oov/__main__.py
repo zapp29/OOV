@@ -15,6 +15,7 @@ def main(modules: List[str]):
     """Main function."""
     modules = list(modules)
     results = OOV(modules).view_issubclass()
+    print("MODULES:", modules)
     build_table(results)
 
 
