@@ -76,14 +76,13 @@ def draw_table_chunk(
             except KeyError:
                 cell = "N/A"
             text = cell.rjust(lens[col] - int(l_col / 2)).ljust(l_col + 2)
-            text = text.replace("0", " ")
-            text = text.replace("1", "Y")
             print(text, end=" ")
         print("")
     return
 
 
 def draw_error_index(table_metadata: List):
-    """Pass."""
+    """Draw an error index under the table."""
+    print("")
     for row in table_metadata:
         print(row[0], ":", row[1], row[2])

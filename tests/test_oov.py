@@ -206,27 +206,27 @@ class TestViewIssubclass:
         result = obj.view_issubclass()
         result = result.get_data()
 
-        assert result["MainClass1"]["MainClass1"] == 1
-        assert result["MainClass2"]["MainClass2"] == 1
-        assert result["MainClass3"]["MainClass3"] == 1
+        assert result["MainClass1"]["MainClass1"] == "Y"
+        assert result["MainClass2"]["MainClass2"] == "Y"
+        assert result["MainClass3"]["MainClass3"] == "Y"
 
-        assert result["ChildClass1"]["ChildClass1"] == 1
-        assert result["ChildClass2"]["ChildClass2"] == 1
+        assert result["ChildClass1"]["ChildClass1"] == "Y"
+        assert result["ChildClass2"]["ChildClass2"] == "Y"
 
-        assert result["ChildClass1"]["MainClass1"] == 1
-        assert result["ChildClass1"]["MainClass2"] == 1
-        assert result["ChildClass1"]["MainClass3"] == 1
-        assert result["ChildClass1"]["MainClass4"] == 0
+        assert result["ChildClass1"]["MainClass1"] == "Y"
+        assert result["ChildClass1"]["MainClass2"] == "Y"
+        assert result["ChildClass1"]["MainClass3"] == "Y"
+        assert result["ChildClass1"]["MainClass4"] == "N"
 
-        assert result["ChildClass2"]["MainClass1"] == 1
-        assert result["ChildClass3"]["MainClass1"] == 1
-        assert result["ChildClass5"]["MainClass1"] == 0
+        assert result["ChildClass2"]["MainClass1"] == "Y"
+        assert result["ChildClass3"]["MainClass1"] == "Y"
+        assert result["ChildClass5"]["MainClass1"] == "N"
 
-        assert result["ChildClass5"]["MainClass4"] == 1
+        assert result["ChildClass5"]["MainClass4"] == "Y"
 
-        assert result["ChildClass6"]["MainClass5"] == 1
-        assert result["ChildClass7"]["MainClass6"] == 1
-        assert result["ChildClass8"]["MainClass7"] == 1
+        assert result["ChildClass6"]["MainClass5"] == "Y"
+        assert result["ChildClass7"]["MainClass6"] == "Y"
+        assert result["ChildClass8"]["MainClass7"] == "Y"
 
-        assert result["MainClass1"]["ChildClass1"] == 0
-        assert result["ChildClass2"]["ChildClass1"] == 0
+        assert result["MainClass1"]["ChildClass1"] == "N"
+        assert result["ChildClass2"]["ChildClass1"] == "N"

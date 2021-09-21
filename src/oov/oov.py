@@ -122,6 +122,7 @@ class OOV:
             do nothing
         if d[key1][key2] doesn't exits:
             d[key1][key2] = counter
+        increment counter
 
         Use case: create index of error messages
         key1: error type
@@ -162,14 +163,12 @@ class OOV:
                     try:
                         if issubclass(p_elem_obj_1, p_elem_obj_2):
                             self._update_dict_inplace(
-                                self.result, elem_obj_1, elem_obj_2, 1
+                                self.result, elem_obj_1, elem_obj_2, "Y"
                             )
                         else:
                             self._update_dict_inplace(
-                                self.result, elem_obj_1, elem_obj_2, 0
+                                self.result, elem_obj_1, elem_obj_2, "N"
                             )
-                    # TODO: make a commit
-                    # TODO: create index of error messages to be displayed under the table
                     # TODO: enable split table by job:
                     # "oov typing dis" should enable displaying 3 distinct tables.
                     # optionally can be chosen split or not split but with namespaces
