@@ -174,6 +174,27 @@ class TestUpdateDictInplace:
         assert d["k4"]["k2"] == 4321
 
 
+class TestUpdateEnumeratedDict:
+    """Test _update_dict_inplace method."""
+
+    def test__update_enumerated_dict(self) -> None:
+        """Checks _update_enumerated_dict dictionary manipulation function."""
+        d: Dict[str, Dict[str, int]] = {}
+        obj = OOV("collections.abc")
+        obj._update_enumerated_dict(d, "k1", "k2")
+        assert d["k1"]["k2"] == 1
+        obj._update_enumerated_dict(d, "k1", "k2")
+        assert d["k1"]["k2"] == 1
+        obj._update_enumerated_dict(d, "k1", "k3")
+        assert d["k1"]["k3"] == 2
+        obj._update_enumerated_dict(d, "k1", "k3")
+        assert d["k1"]["k3"] == 2
+        obj._update_enumerated_dict(d, "k4", "k2")
+        assert d["k4"]["k2"] == 3
+        obj._update_enumerated_dict(d, "k4", "k2")
+        assert d["k4"]["k2"] == 3
+
+
 class TestViewIssubclass:
     """Test view_issubclass method."""
 
@@ -183,6 +204,7 @@ class TestViewIssubclass:
 
         obj = OOV(dummy_module)
         result = obj.view_issubclass()
+        result = result.get_data()
 
         assert result["MainClass1"]["MainClass1"] == 1
         assert result["MainClass2"]["MainClass2"] == 1
